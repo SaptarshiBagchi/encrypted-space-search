@@ -13,10 +13,10 @@ class MagicEncryption {
 
     public static encode(input : string) : string {
         return input.split('').map(character => {
-            const originalUnicode = character.charCodeAt(0)
+            const originalUnicode = character.toLowerCase().charCodeAt(0)
             const leftChar = (originalUnicode)%26 - this.secretNumber
             const rightChar = (originalUnicode)%26 + this.secretNumber
-            return `${String.fromCharCode(leftChar+originalUnicode)}${character}${String.fromCharCode(rightChar + originalUnicode)}`
+            return `${String.fromCharCode(leftChar+originalUnicode)}${character.toLowerCase()}${String.fromCharCode(rightChar + originalUnicode)}`
         }).join('')
     }
 
@@ -25,13 +25,13 @@ class MagicEncryption {
         const splittedInput = input.split('')
         const arrayOfChunks = this.chunkCreator(splittedInput)
         return arrayOfChunks.map(chunk => {
-            return chunk[1]
+            return chunk[1].toLowerCase()
         }).join('')
     }
 }
 
 const encodedString = MagicEncryption.encode("Saptarshi Bagchi")
-const encodedStringToSearch = MagicEncryption.encode('Bag')
+const encodedStringToSearch = MagicEncryption.encode('bag')
 console.log({encodedString, encodedStringToSearch})
 const searchedString = new RegExp(encodedStringToSearch).test(encodedString)
 console.log(searchedString)
